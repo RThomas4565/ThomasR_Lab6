@@ -1,10 +1,7 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
-
 using namespace sf;
 using namespace std;
-
-
 
 int main() {
     string background = "images1/backgrounds/winter.png";
@@ -14,7 +11,6 @@ int main() {
         Texture backgroundTex;
     if (!backgroundTex.loadFromFile(background)) {
         cout << "Couldn't Load Background Image" << endl;
-
         return 1;
     }
 
@@ -30,6 +26,7 @@ int main() {
 
     // Create sprites for background and foreground
     Sprite backgroundSprite(backgroundTex);
+
     Sprite foregroundSprite(foregroundTex);
 
     // Get the size of the foreground image
@@ -53,7 +50,6 @@ int main() {
                 // Replace the foreground pixel with the corresponding background pixel
             if (foregroundPixel.r >= greenMin.r && foregroundPixel.r <= greenMax.r &&
                 foregroundPixel.g >= greenMin.g && foregroundPixel.g <= greenMax.g &&
-
                 foregroundPixel.b >= greenMin.b && foregroundPixel.b <= greenMax.b) {
 
                 foregroundImage.setPixel(x, y, backgroundPixel);
@@ -77,7 +73,6 @@ int main() {
 
     while (window.isOpen()) {
         Event event;
-
         while (window.pollEvent(event)) {
             if (event.type == Event::Closed) {
                 window.close();
@@ -92,3 +87,4 @@ int main() {
 
     return 0;
 }
+//
