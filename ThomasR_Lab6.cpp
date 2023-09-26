@@ -7,8 +7,7 @@ int main() {
     string background = "images1/backgrounds/winter.png";
     string foreground = "images1/characters/Rey_green_screen.png";
 
-    // Load background and foreground textures
-        Texture backgroundTex;
+    Texture backgroundTex;
     if (!backgroundTex.loadFromFile(background)) {
         cout << "Couldn't Load Background Image" << endl;
         return 1;
@@ -20,34 +19,25 @@ int main() {
         return 1;
     }
 
-    // Create render texture to combine images
     RenderTexture renderTexture;
     renderTexture.create(1024, 768);
 
-    // Create sprites for background and foreground
     Sprite backgroundSprite(backgroundTex);
 
     Sprite foregroundSprite(foregroundTex);
 
-    // Get the size of the foreground image
-        Vector2u fgSize = foregroundTex.getSize();
-
-    // Create images from the foreground and background textures
+    Vector2u fgSize = foregroundTex.getSize();
     Image foregroundImage = foregroundTex.copyToImage();
     Image backgroundImage = backgroundTex.copyToImage();
 
-    // Remove green pixels from the foreground based on the background
-    Color greenMin(0, 100, 0); 
-    Color greenMax(100, 255, 100); 
+    Color greenMin(0, 100, 0);
+    Color greenMax(100, 255, 100);
 
     for (unsigned int y = 0; y < fgSize.y; y++) {
         for (unsigned int x = 0; x < fgSize.x; x++) {
             Color foregroundPixel = foregroundImage.getPixel(x, y);
             Color backgroundPixel = backgroundImage.getPixel(x, y);
 
-            // Check if the foreground pixel is green
-            if (foregroundPixel.r < 50 && foregroundPixel.g > 200 && foregroundPixel.b < 50) {
-                // Replace the foreground pixel with the corresponding background pixel
             if (foregroundPixel.r >= greenMin.r && foregroundPixel.r <= greenMax.r &&
                 foregroundPixel.g >= greenMin.g && foregroundPixel.g <= greenMax.g &&
                 foregroundPixel.b >= greenMin.b && foregroundPixel.b <= greenMax.b) {
@@ -57,16 +47,13 @@ int main() {
         }
     }
 
-    // Load the modified foreground image into a texture
     Texture modifiedForegroundTex;
     modifiedForegroundTex.loadFromImage(foregroundImage);
     Sprite modifiedForegroundSprite(modifiedForegroundTex);
 
-    // Draw background and modified foreground onto the render texture
     renderTexture.draw(backgroundSprite);
     renderTexture.draw(modifiedForegroundSprite);
 
-    // Display the combined image
     renderTexture.display();
 
     RenderWindow window(VideoMode(1024, 768), "Combined Image");
